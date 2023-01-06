@@ -67,12 +67,12 @@ Note here that we have higher reads/sample in L2 group.\
 sample_data(pseq)$shannon <- microbiome::diversity(pseq, index="shannon")[,1]
 sample_data(pseq)$observed <- microbiome::richness(pseq, index="observed")[,1]
 p.shannon <- meta(pseq) |> 
-    ggplot(aes_string(ILI, "shannon")) +
+    ggplot(aes_string(primary_var, "shannon")) +
     geom_violin()+
     geom_boxplot(width=0.2) +
     labs(x="", y="Shannon Diversity")
 p.observed <- meta(pseq) |> 
-    ggplot(aes_string(ILI, "observed")) +
+    ggplot(aes_string(primary_var, "observed")) +
     geom_violin()+
     geom_boxplot(width=0.2) +
     labs(x="", y="Observed ASVs")

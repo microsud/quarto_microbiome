@@ -22,6 +22,7 @@ So the quarto has a handy option called the `params` and it can be used in the .
 {{< include params_example/params_example >}}
 
 Notice the `pseq_path: pseq_path` and `primary_var: primary_var`. These are the 'floating' variables. We can write a simple function that will process the .qmd file which we call 'basic_analysis.qmd' and store it in our *RProject* directory. Below is the draft of this file.
+You will notice that `ILI` is now replaced with `primary_var` in the .qmd file in the plotting `aes_string`.  
 
 {{< include params_example_full/params_example_full >}}
 
