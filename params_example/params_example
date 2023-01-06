@@ -1,0 +1,27 @@
+```` markdown
+---
+title: "Microbiota Analysis"
+author: Sudarshan A. Shetty
+date: "`r Sys.Date()`"
+format:
+  html:
+    code-tools: true
+    code-fold: false
+    code-copy: true
+    self-contained: true
+    toc-location: left
+knitr: 
+    opts_chunk: 
+        collapse: TRUE
+        dpi: 150
+        message: FALSE
+        warning: FALSE
+        error: TRUE
+editor: visual
+
+params:
+    pseq_path: pseq_path
+    primary_var: primary_var
+---
+
+````

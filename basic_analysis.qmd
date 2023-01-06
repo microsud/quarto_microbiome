@@ -1,0 +1,106 @@
+---
+title: "Microbiota Analysis"
+author: Sudarshan A. Shetty
+date: "`r Sys.Date()`"
+format:
+  html:
+    code-tools: true
+    code-fold: false
+    code-copy: true
+    self-contained: true
+    toc-location: left
+knitr: 
+    opts_chunk: 
+        collapse: TRUE
+        dpi: 150
+        message: FALSE
+        warning: FALSE
+        error: TRUE
+editor: visual
+params:
+    pseq_path: pseq_path
+    primary_var: primary_var
+---
+
+## Load libraries
+
+```{r}
+library(phyloseq)
+library(microbiome)
+library(ggpubr) # stats with viz
+library(patchwork) # combine plots 
+```
+
+## Define parameters
+
+```{r}
+pseq_path = params$pseq_path
+primary_var = params$primary_var
+```
+
+## Read Data
+
+```{r}
+pseq <- readRDS(pseq_path)
+```
+
+## Check Reads
+
+```{r fig.height=4, fig.width=5, fig.align='center'}
+# add reads/sample to sample_data()
+sample_data(pseq)$reads.per.sample <- sample_sums(pseq)
+# Compare between groups
+pseq |> 
+    microbiome::meta() |> 
+    ggplot(aes_string(primary_var, "reads.per.sample")) +
+    geom_violin()+
+    geom_boxplot(width=0.2) +
+    labs(x="", y="Reads/sample")
+```
+
+Note here that we have higher reads/sample in L2 group.\
+
+## Alpha diversity
+
+```{r fig.height=4, fig.width=8, fig.align='center'}
+# we can add shannon diversity to sample_data(pseq)
+sample_data(pseq)$shannon <- microbiome::diversity(pseq, index="shannon")[,1]
+sample_data(pseq)$observed <- microbiome::richness(pseq, index="observed")[,1]
+p.shannon <- meta(pseq) |> 
+    ggplot(aes_string(ILI, "shannon")) +
+    geom_violin()+
+    geom_boxplot(width=0.2) +
+    labs(x="", y="Shannon Diversity")
+p.observed <- meta(pseq) |> 
+    ggplot(aes_string(ILI, "observed")) +
+    geom_violin()+
+    geom_boxplot(width=0.2) +
+    labs(x="", y="Observed ASVs")
+
+p.shannon | p.observed
+```
+
+## Correlation
+
+Check if reads per sample is correlated to Shannon diversity
+
+```{r fig.height=4, fig.width=8, fig.align='center'}
+p.shanon.cor <- meta(pseq) |> 
+    ggplot(aes_string("reads.per.sample", "shannon")) +
+    geom_point() +
+    geom_smooth(method = "lm") +
+    ggpubr::stat_cor(method = "spearman", label.y = 2)+
+    labs(x="Reads/sample", y="Shannon Diversity")
+p.observed.cor <- meta(pseq) |> 
+    ggplot(aes_string("reads.per.sample", "observed")) +
+    geom_point() +
+    geom_smooth(method = "lm") +
+    ggpubr::stat_cor(method = "spearman", label.y = 2) +
+    labs(x="Reads/sample", y="Observed ASVs")
+
+p.shanon.cor | p.observed.cor
+```
+
+```{r}
+sessionInfo()
+```

@@ -1,0 +1,64 @@
+---
+title: "Automate Microbiome Analysis Using Quarto"
+author: "Sudarshan A. Shetty"
+format: html
+editor: visual
+---
+
+As a microbiome researcher, we are often working on different data sets. One thing we have to acknowledge is the fact that several basic analysis are same. We look at the data in few steps, quality check, calculating and visualization of alpha and beta diversity as well the compostion between groups. These are standard tasks that are routinely performed. We usually end up copy pasting codes or if we forget repeat the procedure of writing code and searching *stack overflow* or *GitHub* issues.\
+What if we could automate these analysis? Recently, I was intrigued by discussions around the development of `Quarto` by [Posit](https://posit.co/) (formerly RStudio).
+
+If you are already using Rmarkdown (.rmd) you will find the quarto document (.qmd) very similar. Below you can see an simple example. Here, the analysis includes reading the phyloseq object stored as \*.rds file, calculating reads per sample, Shannon diversity, Observed ASVs and investigating if there is a correlation between reads per sample and Shannon diversity, Observed ASVs.
+
+Because all you're doing is writing a small example script, you just grab a few variables at random and plot them in a pretty simple Quarto document. That .qmd looks like this:
+
+{{< include simple_intro/simple_intro >}}
+
+This simple task is pretty much repeated for every 16S rRNA gene profiling project that I am involved. Seems redundant to write/copy the codes everything. Here two things will change based on the project, the input **phyloseq object** and the primary variable of interest i.e. **ILI**.
+
+Here, quarto is handy with its `params` options. Which can be specified as shown below.
+
+{{< include params_example/params_example >}}
+
+Notice the `pseq_path: pseq_path` and `primary_var: primary_var`. These are the 'floating' variables. We can write a simple function that will process the .qmd file which we call 'basic_analysis.qmd' [see here]() and store it in our *RProject* directory. Below is the draft of this file.
+
+{{< include params_example_full/params_example_full >}}
+
+Now to render this report we can write a simple function called `build_my_report`.
+
+```{r eval=FALSE}
+build_my_report <- function(qmd_file=NULL,
+                            pseq_path = NULL,
+                            primary_var = NULL) {
+    
+    {
+        # params.lists <-
+        base_name <- qmd_file
+        base_name <- gsub(".qmd", "", base_name)
+        quarto::quarto_render(input = qmd_file,
+                              output_file = paste0(base_name, "_report.html"),
+                              quiet = FALSE,
+                              execute_params = list("pseq_path" = pseq_path,
+                                                    "primary_var" = primary_var),
+                              execute_debug = FALSE,
+                              cache = NULL,
+                              cache_refresh = FALSE,
+                              debug = FALSE)
+        cat("HTML report created in output directory\n")
+    }
+}
+
+```
+
+The `build_my_report` function has three arguments. \
+1. `qmd_file` = This is the name of the qmd template file i.e. `basic_analysis.qmd`\
+2. `pseq_path` = This is the path to the `phyloseq object` for which we want to run the analysis.\
+3. `primary_var` = This is the primary variable we want to investigate. Here, *ILI* is the column name in `sample_data()` of the phyloseq object `FuentesIliGutData`
+
+```{r eval=FALSE}
+build_my_report(qmd_file="basic_analysis.qmd",
+                pseq_path = "data/FuentesIliGutData.rds",
+                primary_var = "ILI")  
+```
+
+The rendered file can be found [here]()

@@ -1,0 +1,21 @@
+project:
+  type: website
+  output-dir: docs
+
+website:
+  title: "Automate microbiome analysis"
+  navbar:
+    left:
+      - href: index.qmd
+        text: About
+      - href: basic_analysis_report.html
+        text: Example Report 
+
+format:
+  html:
+    theme: cosmo
+    css: styles.css
+    toc: true
+
+editor: visual
+
