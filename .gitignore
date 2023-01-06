@@ -39,11 +39,19 @@ vignettes/*.pdf
 # R Environment Variables
 .Renviron
 
-# pkgdown site
-docs/
-
 # translation temp files
 po/*~
 
+binned/
+
 # RStudio Connect folder
 rsconnect/
+
+/.quarto/
+binned/Automate Microbiome Analysis Using Quarto.qmd
+binned/Automate Microbiome Analysis Using Quarto_files/libs/bootstrap/bootstrap-icons.css
+binned/Automate Microbiome Analysis Using Quarto_files/libs/bootstrap/bootstrap-icons.woff
+.quarto/preview/lock
+.quarto/xref/048eb016
+.quarto/xref/219be8f8
+.quarto/xref/048eb016
