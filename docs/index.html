@@ -190,14 +190,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 </header>
 
-<p>As a microbiome researcher, we are often working on different data sets. One thing we have to acknowledge is the fact that several basic analysis are same. We look at the data in few steps, quality check, calculating and visualization of alpha and beta diversity as well the compostion between groups. These are standard tasks that are routinely performed. We usually end up copy pasting codes or if we forget repeat the procedure of writing code and searching <em>stack overflow</em> or <em>GitHub</em> issues.<br>
-What if we could automate these analysis? Recently, I was intrigued by discussions around the development of <code>Quarto</code> by <a href="https://posit.co/">Posit</a> (formerly RStudio).</p>
-<p>If you are already using Rmarkdown (.rmd) you will find the quarto document (.qmd) very similar. Below you can see an simple example. Here, the analysis includes reading the phyloseq object stored as *.rds file, calculating reads per sample, Shannon diversity, Observed ASVs and investigating if there is a correlation between reads per sample and Shannon diversity, Observed ASVs.</p>
-<p>The .qmd file is similar to .rmd:</p>
+<p>As someone analysing microbiome data, you may find yourself frequently working with different data sets and performing the same basic analyses over and over again. These standard tasks, such as quality checking, calculating alpha and beta diversity, and visualizing the composition between groups, can be time-consuming if you’re constantly copy-pasting code or searching for solutions on <span style="color:#dd1c77">Stack Overflow</span> or <span style="color:#dd1c77">GitHub</span>.</p>
+<p>Wouldn’t it be great if you could automate these analyses? That’s where <a href="https://quarto.org/">Quarto</a> comes in. Developed by <a href="https://posit.co/">Posit</a> (formerly RStudio), <span style="color:#dd1c77">Quarto</span> is the next generation version of <span style="color:#dd1c77">Rmarkdown</span> (<code>.rmd</code>) tool that makes it easy to perform these common tasks and more. In fact, if you’re already familiar with <span style="color:#dd1c77">Rmarkdown</span>, you’ll find the <span style="color:#dd1c77">Quarto</span> document (<code>.qmd</code>) very similar. <a href="https://quarto.org/docs/get-started/index.html">Here</a> you can find the installation details.</p>
+<p>Here’s a simple example of what you can do with <span style="color:#dd1c77">Quarto</span>: read in a phyloseq object stored as an *.rds file, calculate reads per sample, Shannon diversity, and Observed ASVs, and investigate whether there is a correlation between reads per sample and Shannon diversity, Observed ASVs. I use the data from <a href="https://www.thelancet.com/journals/lanhl/article/PIIS2666-7568(20)30034-9/fulltext">Fuentes et al.</a> that consists of gut microbiota profiles from older adults with (L1 and L2) and without (C) influenza-like illness. This information is stored in the column called <span style="color:#dd1c77">ILI</span> in the <code>sample_data</code> of the <a href="https://joey711.github.io/phyloseq/">phyloseq</a> object <code>FuentesIliGutData.rds</code>.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "Microbiota Analysis"</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="an">author:</span><span class="co"> Sudarshan A. Shetty</span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="an">date:</span><span class="co"> "2023-01-06"</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="an">date:</span><span class="co"> "2023-01-07"</span></span>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="an">format:</span></span>
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="co">  html:</span></span>
 <span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co">    code-tools: true</span></span>
@@ -284,13 +283,13 @@ What if we could automate these analysis? Recently, I was intrigued by discussio
 <span id="cb1-88"><a href="#cb1-88" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
 <span id="cb1-89"><a href="#cb1-89" aria-hidden="true" tabindex="-1"></a><span class="fu">sessionInfo</span>()</span>
 <span id="cb1-90"><a href="#cb1-90" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>This simple task is pretty much repeated for every 16S rRNA gene profiling project that I am involved. Seems redundant to write/copy the codes everything. Here two things will change based on the project, the input <strong>phyloseq object</strong> and the primary variable of interest i.e.&nbsp;<strong>ILI</strong>.<br>
-I came across this post by Mike Mahoney <a href="https://www.mm218.dev/posts/2022-08-04-how-to-use-quarto-for-parameterized-reporting/">How to use Quarto for Parameterized Reporting</a>. This inspired me to try <code>quarto</code> for automating my analysis.</p>
-<p>So the quarto has a handy option called the <code>params</code> and it can be used in the .qmd file as shown below.</p>
+<p>As you may notice this is one of the common tasks in a microbiota profiling study. This can be tedious if you’re constantly writing or copying code.</p>
+<p>But what if you could automate these tasks and save yourself time and effort? That’s where <span style="color:#dd1c77">Quarto</span> comes in. In a recent post, Mike Mahoney demonstrated <a href="https://www.mm218.dev/posts/2022-08-04-how-to-use-quarto-for-parameterized-reporting/">How to use Quarto for Parameterized Reporting</a>. This inspired me to try <span style="color:#dd1c77">Quarto</span> for automating my analysis.</p>
+<p>One of the handy features of <span style="color:#dd1c77">Quarto</span> is the <span style="color:#3182bd">params</span> option, which can be used in the <code>.qmd</code> file to customize your analysis for each project. Here’s an example of how to use it:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "Microbiota Analysis"</span></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="an">author:</span><span class="co"> Sudarshan A. Shetty</span></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="an">date:</span><span class="co"> "2023-01-06"</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="an">date:</span><span class="co"> "2023-01-07"</span></span>
 <span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="an">format:</span></span>
 <span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="co">  html:</span></span>
 <span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="co">    code-tools: true</span></span>
@@ -311,11 +310,12 @@ I came across this post by Mike Mahoney <a href="https://www.mm218.dev/posts/202
 <span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a><span class="co">    pseq_path: pseq_path</span></span>
 <span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a><span class="co">    primary_var: primary_var</span></span>
 <span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Notice the <code>pseq_path: pseq_path</code> and <code>primary_var: primary_var</code>. These are the ‘floating’ variables. We can write a simple function that will process the .qmd file which we call ‘basic_analysis.qmd’ and store it in our <em>RProject</em> directory. Below is the draft of this file. You will notice that <code>ILI</code> is now replaced with <code>primary_var</code> in the .qmd file in the plotting <code>aes_string</code>.</p>
+<p>Did you notice the <span style="color:#3182bd">pseq_path: pseq_path</span> and <span style="color:#3182bd">primary_var: primary_var</span> variables in the <code>.qmd</code> file? These are <span style="color:#3182bd">floating</span> variables, which means they can be customized for each project. To make it even easier to reuse this analysis, you can write a simple function that processes the <code>.qmd</code> file (called <span style="color:#dd1c77">basic_analysis.qmd</span>) and stores it in your <span style="color:#dd1c77">RProject</span> directory.</p>
+<p>Here’s a draft of what this file might look like: notice that the <span style="color:#dd1c77">ILI</span> variable has been replaced with <code>primary_var</code> in the plotting <code>aes_string</code>. This allows you to customize the analysis for each project simply by changing the values of these floating variables.</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "Microbiota Analysis"</span></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="an">author:</span><span class="co"> Sudarshan A. Shetty</span></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="an">date:</span><span class="co"> "2023-01-06"</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="an">date:</span><span class="co"> "2023-01-07"</span></span>
 <span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="an">format:</span></span>
 <span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="co">  html:</span></span>
 <span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="co">    code-tools: true</span></span>
@@ -438,17 +438,20 @@ I came across this post by Mike Mahoney <a href="https://www.mm218.dev/posts/202
 <span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>    }</span>
 <span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>The <code>build_my_report</code> function has three arguments.<br>
-1. <code>qmd_file</code> = This is the name of the qmd template file i.e.&nbsp;<code>basic_analysis.qmd</code><br>
-2. <code>pseq_path</code> = This is the path to the <code>phyloseq object</code> for which we want to run the analysis.<br>
-3. <code>primary_var</code> = This is the primary variable we want to investigate. Here, <em>ILI</em> is the column name in <code>sample_data()</code> of the phyloseq object <code>FuentesIliGutData</code></p>
+<p>The “build_my_report” function takes three arguments:</p>
+<ul>
+<li><p><span style="color:#c51b8a">qmd_file</span> is the name of the <code>.qmd</code> template file (e.g.&nbsp;<span style="color:#dd1c77">basic_analysis.qmd</span>).</p></li>
+<li><p><span style="color:#c51b8a">pseq_path</span> is the path to the phyloseq object that you want to analyze.</p></li>
+<li><p><span style="color:#c51b8a">primary_var</span> is the name of the primary variable you want to investigate. In this case, <span style="color:#dd1c77">ILI</span> is the column name in the <code>sample_data()</code> of the <code>FuentesIliGutData</code> phyloseq object.</p></li>
+</ul>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">build_my_report</span>(<span class="at">qmd_file=</span><span class="st">"basic_analysis.qmd"</span>,</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>                <span class="at">pseq_path =</span> <span class="st">"data/FuentesIliGutData.rds"</span>,</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>                <span class="at">primary_var =</span> <span class="st">"ILI"</span>)  </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>The rendered file can be found <strong>Example Report</strong>!</p>
-<p>I hope you find this useful.</p>
+<p>The rendered file can be found in the tab <strong>Example Report</strong> above!</p>
+<p>I think that <span style="color:#dd1c77">Quarto</span> is a useful tool for any microbiome researchers looking to streamline their workflows and save time on routine analyses. By using the <span style="color:#3182bd">params</span> option in the <code>.qmd</code> file, you can easily customize your analysis for each project, while the ability to store your <code>.qmd</code> file in your <code>RProject</code> directory means you can easily reuse your analysis across multiple projects. The reports can be standardized and shared easily with collaborators. There are several aesthetic and practical settings like hiding codes, defining visualization themes, etc as well as using the <code>knitr::opts_chunk</code> for setting global rules for your documents. You can familiarize with <a href="https://quarto.org/docs/guide/">Quarto quide</a> and explore the numerous options for automating your data analysis workflows. Give it a try and see how it can revolutionize the way you approach your research.</p>
+<p>© Copyright 2023 Sudarshan A. Shetty</p>
 
 
 
