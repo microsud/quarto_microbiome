@@ -348,7 +348,7 @@ Note
 <span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a><span class="co">    primary_var: primary_var</span></span>
 <span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Did you notice the <span style="color:#3182bd">pseq_path: pseq_path</span> and <span style="color:#3182bd">primary_var: primary_var</span> variables in the <code>.qmd</code> file? These are <span style="color:#3182bd">floating</span> variables, which means they can be customized for each project. To make it even easier to reuse this analysis, you can write a simple function that processes the <code>.qmd</code> file (called <span style="color:#dd1c77">basic_analysis.qmd</span>) and stores it in your <span style="color:#dd1c77">RProject</span> directory.</p>
-<p>Here’s a draft of what this file might look like: notice that the <span style="color:#dd1c77">ILI</span> variable has been replaced with <code>primary_var</code> in the plotting <code>aes_string</code>. This allows you to customize the analysis for each project simply by changing the values of these floating variables.</p>
+<p>Here’s a draft of what this file (I call it <code>basic_analysis.qmd</code>) might look like: notice that the <span style="color:#dd1c77">ILI</span> variable has been replaced with <code>primary_var</code> in the plotting <code>aes_string</code>. This allows you to customize the analysis for each project simply by changing the values of these floating variables.</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "Microbiota Analysis"</span></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="an">author:</span><span class="co"> Sudarshan A. Shetty</span></span>
@@ -484,10 +484,24 @@ Note
 <li><p><span style="color:#c51b8a">pseq_path</span> is the path to the phyloseq object that you want to analyze.</p></li>
 <li><p><span style="color:#c51b8a">primary_var</span> is the name of the primary variable you want to investigate. In this case, <span style="color:#dd1c77">ILI</span> is the column name in the <code>sample_data()</code> of the <code>FuentesIliGutData</code> phyloseq object.</p></li>
 </ul>
+<p>You can create an <code>RProject</code> and organize your files. Here is one simple example.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>Structure of your <span class="in">`RProject`</span>:   </span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>my_project/   </span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    |----- my_project.Rproj # short description of what it contains.</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    |----- basic_analysis.qmd # Template .qmd file.  </span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    |----- build_my_report.R # R file with function to render report from .qmd file. </span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    |----- data/ # A folder where data is stored.  </span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>            |----- FuentesIliGutData.rds</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Then you can simply <code>source</code> the function from the file in your session.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">build_my_report</span>(<span class="at">qmd_file =</span> <span class="st">"basic_analysis.qmd"</span>,</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>                <span class="at">pseq_path =</span> <span class="st">"data/FuentesIliGutData.rds"</span>,</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>                <span class="at">primary_var =</span> <span class="st">"ILI"</span>)  </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"build_my_report.R"</span>) <span class="co"># source function to run</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>And run <code>build_my_report()</code> by supplying the necessary files/info to the arguments.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># run function </span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">build_my_report</span>(<span class="at">qmd_file =</span> <span class="st">"basic_analysis.qmd"</span>,</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>                <span class="at">pseq_path =</span> <span class="st">"data/FuentesIliGutData.rds"</span>,</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>                <span class="at">primary_var =</span> <span class="st">"ILI"</span>)  </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="callout-note callout callout-style-default callout-captioned">
 <div class="callout-header d-flex align-content-center">

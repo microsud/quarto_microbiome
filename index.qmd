@@ -27,7 +27,7 @@ One of the handy features of [Quarto]{style="color:#dd1c77"} is the [params]{sty
 
 Did you notice the [pseq_path: pseq_path]{style="color:#3182bd"} and [primary_var: primary_var]{style="color:#3182bd"} variables in the `.qmd` file? These are [floating]{style="color:#3182bd"} variables, which means they can be customized for each project. To make it even easier to reuse this analysis, you can write a simple function that processes the `.qmd` file (called [basic_analysis.qmd]{style="color:#dd1c77"}) and stores it in your [RProject]{style="color:#dd1c77"} directory.
 
-Here's a draft of what this file might look like: notice that the [ILI]{style="color:#dd1c77"} variable has been replaced with `primary_var` in the plotting `aes_string`. This allows you to customize the analysis for each project simply by changing the values of these floating variables.
+Here's a draft of what this file (I call it `basic_analysis.qmd`) might look like: notice that the [ILI]{style="color:#dd1c77"} variable has been replaced with `primary_var` in the plotting `aes_string`. This allows you to customize the analysis for each project simply by changing the values of these floating variables.
 
 {{< include params_example_full/params_example_full >}}
 
@@ -65,21 +65,39 @@ The `build_my_report(qmd_file, pseq_path, primary_var)` function takes three arg
 
 -   [pseq_path]{style="color:#c51b8a"} is the path to the phyloseq object that you want to analyze.
 
--   [primary_var]{style="color:#c51b8a"} is the name of the primary variable you want to investigate. In this case, [ILI]{style="color:#dd1c77"} is the column name in the `sample_data()` of the `FuentesIliGutData` phyloseq object.
+-   [primary_var]{style="color:#c51b8a"} is the name of the primary variable you want to investigate. In this case, [ILI]{style="color:#dd1c77"} is the column name in the `sample_data()` of the `FuentesIliGutData` phyloseq object.  
+
+You can create an `RProject` and organize your files. Here is one simple example.  
+``` markdown
+Structure of your `RProject`:   
+my_project/   
+    |----- my_project.Rproj # short description of what it contains.
+    |----- basic_analysis.qmd # Template .qmd file.  
+    |----- build_my_report.R # R file with function to render report from .qmd file. 
+    |----- data/ # A folder where data is stored.  
+            |----- FuentesIliGutData.rds
+```
+
+Then you can simply `source` the function from the file in your session.   
 
 ```{r eval=FALSE}
+source("build_my_report.R") # source function to run
+```
+
+And run `build_my_report()` by supplying the necessary files/info to the arguments.    
+```{r eval=FALSE}
+# run function 
 build_my_report(qmd_file = "basic_analysis.qmd",
                 pseq_path = "data/FuentesIliGutData.rds",
                 primary_var = "ILI")  
 ```
 
 ::: callout-note
-Check the rendered html file in the tab **Example Report** above! 
+Check the rendered html file in the tab **Example Report** above!
 :::
 
 I think that [Quarto]{style="color:#dd1c77"} is a useful tool for microbiome researchers looking to streamline their workflows and save time on routine analyses. By using the [params]{style="color:#3182bd"} option in the `.qmd` file, you can easily customize your analysis for each project, while the ability to store your `.qmd` file in your `RProject` directory means you can easily reuse your analysis across multiple projects. The reports can be standardized and shared easily with collaborators. There are several aesthetic and practical settings like hiding codes, defining visualization themes, etc as well as using the `knitr::opts_chunk` for setting global rules for your documents. Moreover, beyond `html`, reports can be generated as `pdf` or `word doc` files. You can familiarize yourself with [Quarto quide](https://quarto.org/docs/guide/) and explore the numerous options for automating your data analysis workflows. Give it a try and see how it can change the way you approach your routine microbiome data analytics.
 
 ------------------------------------------------------------------------
 
-© Copyright 2023 Sudarshan A. Shetty  
-
+© Copyright 2023 Sudarshan A. Shetty
