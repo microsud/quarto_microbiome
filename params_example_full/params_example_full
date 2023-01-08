@@ -23,6 +23,7 @@ params:
     primary_var: primary_var
 ---
 
+In this document, we investigate whether the Shannon diversity and Observed ASVs of samples is correlated to their sequencing depth.  
 ## Load libraries
 
 ```{{r}}
@@ -58,7 +59,7 @@ pseq |>
     geom_boxplot(width=0.2) +
     labs(x="", y="Reads/sample")
 ```
-Note here that we have higher reads/sample in L2 group.\
+
 
 ## Alpha diversity
 ```{{r}}

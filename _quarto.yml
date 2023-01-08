@@ -4,18 +4,34 @@ project:
 
 website:
   title: "Automate microbiome analysis"
+  page-navigation: true
   navbar:
     left:
       - href: index.qmd
         text: About
       - href: basic_analysis_report.html
         text: Example Report 
+    right:
+    - icon: github
+      href: https://github.com/
+      aria-label: GitHub
+    - icon: twitter
+      aria-label: Twitter
+      href: https://twitter.com/gutmicrobe
+    - icon: linkedin
+      aria-label: LinkedIn
+      href: https://www.linkedin.com/in/sudarshan-shetty-57345822/
 
 format:
   html:
-    theme: cosmo
+    theme:
+      light: flatly
+      dark: darkly
     css: styles.css
     toc: true
 
+body-header: | 
+  © Copyright 2023 Sudarshan A. Shetty
+  
 editor: visual
 

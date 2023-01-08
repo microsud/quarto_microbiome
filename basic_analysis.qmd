@@ -22,6 +22,8 @@ params:
     primary_var: primary_var
 ---
 
+In this document, we investigate whether the Shannon diversity and Observed ASVs of samples is correlated to their sequencing depth.  
+
 ## Load libraries
 
 ```{r}
@@ -82,7 +84,7 @@ p.shannon | p.observed
 
 ## Correlation
 
-Check if reads per sample is correlated to Shannon diversity
+Check if reads per sample is correlated to Shannon diversity and Observed ASVs.  
 
 ```{r fig.height=4, fig.width=8, fig.align='center'}
 p.shanon.cor <- meta(pseq) |> 

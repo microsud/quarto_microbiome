@@ -20,6 +20,8 @@ knitr:
 editor: visual
 ---
 
+In this document, we investigate whether the Shannon diversity and Observed species of samples is correlated to their sequencing depth.  
+
 ## Load libraries  
 ```{{r}}
 library(phyloseq)

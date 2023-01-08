@@ -5,9 +5,16 @@ format: html
 editor: visual
 ---
 
-As someone analysing microbiome data, you may find yourself frequently working with different data sets and performing the same basic analyses over and over again. These standard tasks, such as quality checking, calculating alpha and beta diversity, and visualizing the composition between groups, can be time-consuming if you're constantly copy-pasting code or searching for solutions on [Stack Overflow]{style="color:#dd1c77"} or [GitHub]{style="color:#dd1c77"}.
 
-Wouldn't it be great if you could automate these analyses? That's where [Quarto](https://quarto.org/) comes in. Developed by [Posit](https://posit.co/) (formerly RStudio), [Quarto]{style="color:#dd1c77"} is the next generation version of [Rmarkdown]{style="color:#dd1c77"} (`.rmd`) tool that makes it easy to perform these common tasks and more. In fact, if you're already familiar with [Rmarkdown]{style="color:#dd1c77"}, you'll find the [Quarto]{style="color:#dd1c77"} document (`.qmd`) very similar. [Here](https://quarto.org/docs/get-started/index.html) you can find the installation details.  
+::: callout-note
+
+Before you start, please familiarize yourself with [RStudio](https://education.rstudio.com/learn/beginner/) and its [RStudio projects](https://www.r-bloggers.com/2020/01/rstudio-projects-and-working-directories-a-beginners-guide/).
+
+:::
+
+As someone analyzing microbiome data, you may find yourself frequently working with different data sets and performing the same basic analyses over and over again. These standard tasks, such as quality checking, calculating alpha and beta diversity, and visualizing the composition between groups, can be time-consuming if you're constantly copy-pasting code or searching for solutions on [Stack Overflow]{style="color:#dd1c77"} or [GitHub]{style="color:#dd1c77"}.
+
+Wouldn't it be great if you could automate these analyses? That's where [Quarto](https://quarto.org/) comes in. Developed by [Posit](https://posit.co/) (formerly RStudio), [Quarto]{style="color:#dd1c77"} is the next generation version of [Rmarkdown]{style="color:#dd1c77"} (`.rmd`) tool that makes it easy to perform these common tasks and more. In fact, if you're already familiar with [Rmarkdown]{style="color:#dd1c77"}, you'll find the [Quarto]{style="color:#dd1c77"} document (`.qmd`) very similar. [Here](https://quarto.org/docs/get-started/index.html) you can find the installation details.
 
 Here's a simple example of what you can do with [Quarto]{style="color:#dd1c77"}: read in a phyloseq object stored as an \*.rds file, calculate reads per sample, Shannon diversity, and Observed ASVs, and investigate whether there is a correlation between reads per sample and Shannon diversity, Observed ASVs. I use the data from [Fuentes et al.](https://www.thelancet.com/journals/lanhl/article/PIIS2666-7568(20)30034-9/fulltext) that consists of gut microbiota profiles from older adults with (L1 and L2) and without (C) influenza-like illness. This information is stored in the column called [ILI]{style="color:#dd1c77"} in the `sample_data` of the [phyloseq](https://joey711.github.io/phyloseq/) object `FuentesIliGutData.rds`.
 
@@ -17,7 +24,7 @@ As you may notice this is one of the common tasks in a microbiota profiling stud
 
 But what if you could automate these tasks and save yourself time and effort? That's where [Quarto]{style="color:#dd1c77"} comes in. In a recent post, Mike Mahoney demonstrated [How to use Quarto for Parameterized Reporting](https://www.mm218.dev/posts/2022-08-04-how-to-use-quarto-for-parameterized-reporting/). This inspired me to try [Quarto]{style="color:#dd1c77"} for automating my analysis.
 
-One of the handy features of [Quarto]{style="color:#dd1c77"} is the [params]{style="color:#3182bd"} option, which can be used in the `.qmd` file to customize your analysis for each project. Here's an example of how to use it:  
+One of the handy features of [Quarto]{style="color:#dd1c77"} is the [params]{style="color:#3182bd"} option, which can be used in the `.qmd` file to customize your analysis for each project. This option is also available in the [Rmarkdown]{style="color:#dd1c77"} format. Here's an example of how to use [params]{style="color:#3182bd"} in `.qmd`:
 
 {{< include params_example/params_example >}}
 
@@ -30,30 +37,32 @@ Here's a draft of what this file might look like: notice that the [ILI]{style="c
 Now to render this report we can write a simple function called `build_my_report`.
 
 ```{r eval=FALSE}
-build_my_report <- function(qmd_file=NULL,
+build_my_report <- function(qmd_file = NULL,
                             pseq_path = NULL,
                             primary_var = NULL) {
     
     {
-        # params.lists <-
+        # extracting the name of the source .qmd file
         base_name <- qmd_file
         base_name <- gsub(".qmd", "", base_name)
+        # render the file 
         quarto::quarto_render(input = qmd_file,
+                              # We add the suffix '_report' to output html file
                               output_file = paste0(base_name, "_report.html"),
                               quiet = FALSE,
+                              # supply the params arguments 
                               execute_params = list("pseq_path" = pseq_path,
                                                     "primary_var" = primary_var),
                               execute_debug = FALSE,
                               cache = NULL,
                               cache_refresh = FALSE,
                               debug = FALSE)
-        cat("HTML report created in output directory\n")
     }
 }
 
 ```
 
-The "build_my_report" function takes three arguments:
+The `build_my_report(qmd_file, pseq_path, primary_var)` function takes three arguments:
 
 -   [qmd_file]{style="color:#c51b8a"} is the name of the `.qmd` template file (e.g. [basic_analysis.qmd]{style="color:#dd1c77"}).
 
@@ -62,13 +71,13 @@ The "build_my_report" function takes three arguments:
 -   [primary_var]{style="color:#c51b8a"} is the name of the primary variable you want to investigate. In this case, [ILI]{style="color:#dd1c77"} is the column name in the `sample_data()` of the `FuentesIliGutData` phyloseq object.
 
 ```{r eval=FALSE}
-build_my_report(qmd_file="basic_analysis.qmd",
+build_my_report(qmd_file = "basic_analysis.qmd",
                 pseq_path = "data/FuentesIliGutData.rds",
                 primary_var = "ILI")  
 ```
 
 The rendered file can be found in the tab **Example Report** above!
 
-I think that [Quarto]{style="color:#dd1c77"} is a useful tool for any microbiome researchers looking to streamline their workflows and save time on routine analyses. By using the [params]{style="color:#3182bd"} option in the `.qmd` file, you can easily customize your analysis for each project, while the ability to store your `.qmd` file in your `RProject` directory means you can easily reuse your analysis across multiple projects. The reports can be standardized and shared easily with collaborators. There are several aesthetic and practical settings like hiding codes, defining visualization themes, etc as well as using the `knitr::opts_chunk` for setting global rules for your documents. You can familiarize with [Quarto quide](https://quarto.org/docs/guide/) and explore the numerous options for automating your data analysis workflows. Give it a try and see how it can revolutionize the way you approach your research.
+I think that [Quarto]{style="color:#dd1c77"} is a useful tool for microbiome researchers looking to streamline their workflows and save time on routine analyses. By using the [params]{style="color:#3182bd"} option in the `.qmd` file, you can easily customize your analysis for each project, while the ability to store your `.qmd` file in your `RProject` directory means you can easily reuse your analysis across multiple projects. The reports can be standardized and shared easily with collaborators. There are several aesthetic and practical settings like hiding codes, defining visualization themes, etc as well as using the `knitr::opts_chunk` for setting global rules for your documents. You can familiarize yourself with [Quarto quide](https://quarto.org/docs/guide/) and explore the numerous options for automating your data analysis workflows. Give it a try and see how it can revolutionize the way you approach your research.  
 
-© Copyright 2023 Sudarshan A. Shetty  
+© Copyright 2023 Sudarshan A. Shetty
