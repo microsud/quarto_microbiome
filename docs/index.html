@@ -320,7 +320,7 @@ Note
 <span id="cb1-90"><a href="#cb1-90" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
 <span id="cb1-91"><a href="#cb1-91" aria-hidden="true" tabindex="-1"></a><span class="fu">sessionInfo</span>()</span>
 <span id="cb1-92"><a href="#cb1-92" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>As you may notice this is one of the common tasks in a microbiota profiling study. This can be tedious if you’re constantly writing or copying code.</p>
+<p>As you may notice this is one of the common tasks in a microbiota profiling study. This can be boring if you’re constantly writing or copying the same code.</p>
 <p>But what if you could automate these tasks and save yourself time and effort? That’s where <span style="color:#dd1c77">Quarto</span> comes in. In a recent post, Mike Mahoney demonstrated <a href="https://www.mm218.dev/posts/2022-08-04-how-to-use-quarto-for-parameterized-reporting/">How to use Quarto for Parameterized Reporting</a>. This inspired me to try <span style="color:#dd1c77">Quarto</span> for automating my analysis.</p>
 <p>One of the handy features of <span style="color:#dd1c77">Quarto</span> is the <span style="color:#3182bd">params</span> option, which can be used in the <code>.qmd</code> file to customize your analysis for each project. This option is also available in the <span style="color:#dd1c77">Rmarkdown</span> format. Here’s an example of how to use <span style="color:#3182bd">params</span> in <code>.qmd</code>:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
@@ -373,7 +373,7 @@ Note
 <span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a><span class="co">    primary_var: primary_var</span></span>
 <span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
 <span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>In this document, we investigate whether the Shannon diversity and Observed species of samples is correlated to their sequencing depth.  </span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>In this document, we investigate whether the Shannon diversity and Observed ASVs of samples is correlated to their sequencing depth.  </span>
 <span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a><span class="fu">## Load libraries</span></span>
 <span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
@@ -489,8 +489,21 @@ Note
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>                <span class="at">pseq_path =</span> <span class="st">"data/FuentesIliGutData.rds"</span>,</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>                <span class="at">primary_var =</span> <span class="st">"ILI"</span>)  </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>The rendered file can be found in the tab <strong>Example Report</strong> above!</p>
-<p>I think that <span style="color:#dd1c77">Quarto</span> is a useful tool for microbiome researchers looking to streamline their workflows and save time on routine analyses. By using the <span style="color:#3182bd">params</span> option in the <code>.qmd</code> file, you can easily customize your analysis for each project, while the ability to store your <code>.qmd</code> file in your <code>RProject</code> directory means you can easily reuse your analysis across multiple projects. The reports can be standardized and shared easily with collaborators. There are several aesthetic and practical settings like hiding codes, defining visualization themes, etc as well as using the <code>knitr::opts_chunk</code> for setting global rules for your documents. You can familiarize yourself with <a href="https://quarto.org/docs/guide/">Quarto quide</a> and explore the numerous options for automating your data analysis workflows. Give it a try and see how it can revolutionize the way you approach your research.</p>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Check the rendered html file in the tab <strong>Example Report</strong> above!</p>
+</div>
+</div>
+<p>I think that <span style="color:#dd1c77">Quarto</span> is a useful tool for microbiome researchers looking to streamline their workflows and save time on routine analyses. By using the <span style="color:#3182bd">params</span> option in the <code>.qmd</code> file, you can easily customize your analysis for each project, while the ability to store your <code>.qmd</code> file in your <code>RProject</code> directory means you can easily reuse your analysis across multiple projects. The reports can be standardized and shared easily with collaborators. There are several aesthetic and practical settings like hiding codes, defining visualization themes, etc as well as using the <code>knitr::opts_chunk</code> for setting global rules for your documents. Moreover, beyond <code>html</code>, reports can be generated as <code>pdf</code> or <code>word doc</code> files. You can familiarize yourself with <a href="https://quarto.org/docs/guide/">Quarto quide</a> and explore the numerous options for automating your data analysis workflows. Give it a try and see how it can change the way you approach your routine microbiome data analytics.</p>
+<hr>
 <p>© Copyright 2023 Sudarshan A. Shetty</p>
 
 
@@ -743,6 +756,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
   }
 });
+</script>
+<script src="https://utteranc.es/client.js" repo="microsud/quarto_microbiome" issue-term="pathname" theme="github-light" crossorigin="anonymous" async="">
 </script>
 </div> <!-- /content -->
 

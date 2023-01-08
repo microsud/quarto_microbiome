@@ -30,6 +30,10 @@ format:
     css: styles.css
     toc: true
 
+comments: 
+  utterances: 
+    repo:  microsud/quarto_microbiome
+    
 body-header: | 
   © Copyright 2023 Sudarshan A. Shetty
   

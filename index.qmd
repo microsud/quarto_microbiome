@@ -5,11 +5,8 @@ format: html
 editor: visual
 ---
 
-
 ::: callout-note
-
 Before you start, please familiarize yourself with [RStudio](https://education.rstudio.com/learn/beginner/) and its [RStudio projects](https://www.r-bloggers.com/2020/01/rstudio-projects-and-working-directories-a-beginners-guide/).
-
 :::
 
 As someone analyzing microbiome data, you may find yourself frequently working with different data sets and performing the same basic analyses over and over again. These standard tasks, such as quality checking, calculating alpha and beta diversity, and visualizing the composition between groups, can be time-consuming if you're constantly copy-pasting code or searching for solutions on [Stack Overflow]{style="color:#dd1c77"} or [GitHub]{style="color:#dd1c77"}.
@@ -20,7 +17,7 @@ Here's a simple example of what you can do with [Quarto]{style="color:#dd1c77"}:
 
 {{< include simple_intro/simple_intro >}}
 
-As you may notice this is one of the common tasks in a microbiota profiling study. This can be tedious if you're constantly writing or copying code.
+As you may notice this is one of the common tasks in a microbiota profiling study. This can be boring if you're constantly writing or copying the same code.
 
 But what if you could automate these tasks and save yourself time and effort? That's where [Quarto]{style="color:#dd1c77"} comes in. In a recent post, Mike Mahoney demonstrated [How to use Quarto for Parameterized Reporting](https://www.mm218.dev/posts/2022-08-04-how-to-use-quarto-for-parameterized-reporting/). This inspired me to try [Quarto]{style="color:#dd1c77"} for automating my analysis.
 
@@ -76,8 +73,13 @@ build_my_report(qmd_file = "basic_analysis.qmd",
                 primary_var = "ILI")  
 ```
 
-The rendered file can be found in the tab **Example Report** above!
+::: callout-note
+Check the rendered html file in the tab **Example Report** above! 
+:::
 
-I think that [Quarto]{style="color:#dd1c77"} is a useful tool for microbiome researchers looking to streamline their workflows and save time on routine analyses. By using the [params]{style="color:#3182bd"} option in the `.qmd` file, you can easily customize your analysis for each project, while the ability to store your `.qmd` file in your `RProject` directory means you can easily reuse your analysis across multiple projects. The reports can be standardized and shared easily with collaborators. There are several aesthetic and practical settings like hiding codes, defining visualization themes, etc as well as using the `knitr::opts_chunk` for setting global rules for your documents. You can familiarize yourself with [Quarto quide](https://quarto.org/docs/guide/) and explore the numerous options for automating your data analysis workflows. Give it a try and see how it can revolutionize the way you approach your research.  
+I think that [Quarto]{style="color:#dd1c77"} is a useful tool for microbiome researchers looking to streamline their workflows and save time on routine analyses. By using the [params]{style="color:#3182bd"} option in the `.qmd` file, you can easily customize your analysis for each project, while the ability to store your `.qmd` file in your `RProject` directory means you can easily reuse your analysis across multiple projects. The reports can be standardized and shared easily with collaborators. There are several aesthetic and practical settings like hiding codes, defining visualization themes, etc as well as using the `knitr::opts_chunk` for setting global rules for your documents. Moreover, beyond `html`, reports can be generated as `pdf` or `word doc` files. You can familiarize yourself with [Quarto quide](https://quarto.org/docs/guide/) and explore the numerous options for automating your data analysis workflows. Give it a try and see how it can change the way you approach your routine microbiome data analytics.
 
-© Copyright 2023 Sudarshan A. Shetty
+------------------------------------------------------------------------
+
+© Copyright 2023 Sudarshan A. Shetty  
+
