@@ -52,8 +52,8 @@ sample_data(pseq)$reads.per.sample <- sample_sums(pseq)
 pseq |> 
     microbiome::meta() |> 
     ggplot(aes_string(primary_var, "reads.per.sample")) +
-    geom_violin()+
-    geom_boxplot(width=0.2) +
+    geom_violin(aes_string(color=primary_var))+
+    geom_boxplot(aes_string(color=primary_var), width=0.2)+
     labs(x="", y="Reads/sample")
 ```
 

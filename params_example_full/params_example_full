@@ -56,7 +56,7 @@ pseq |>
     microbiome::meta() |> 
     ggplot(aes_string(primary_var, "reads.per.sample")) +
     geom_violin(aes_string(color=primary_var))+
-    geom_boxplot(width=0.2) +
+    geom_boxplot(aes_string(color=primary_var), width=0.2)+
     labs(x="", y="Reads/sample")+
     theme_bw()
 ```
