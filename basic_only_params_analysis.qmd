@@ -1,4 +1,3 @@
-```` markdown
 ---
 title: "Microbiota Analysis"
 author: Sudarshan A. Shetty
@@ -25,7 +24,7 @@ params:
 ---
 
 
-```{{r}}
+```{r}
 library(phyloseq)
 library(microbiome)
 library(ggpubr) # stats with viz
@@ -34,16 +33,28 @@ library(patchwork) # combine plots
 
 ## Usage of parameters  
 The parameters can be passed on simply as follows at the start of the code chunk
-```{{r}}
+```{r}
 pseq_path = params$pseq_path
 primary_var = params$primary_var
 ```
 
 
 ## Read Data
-```{{r}}
+```{r}
 pseq <- readRDS(pseq_path)
 print(pseq)
 ```
-And rest of the analysis...
-````
+
+```{r}
+# add reads/sample to sample_data()
+sample_data(pseq)$reads.per.sample <- sample_sums(pseq)
+# Compare between groups
+pseq |> 
+    microbiome::meta() |> 
+    ggplot(aes_string(primary_var, "reads.per.sample")) +
+    geom_violin()+
+    geom_boxplot(width=0.2) +
+    labs(x="", y="Reads/sample")
+```
+
+And rest of the analysis  

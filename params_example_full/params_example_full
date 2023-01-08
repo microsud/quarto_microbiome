@@ -55,9 +55,10 @@ sample_data(pseq)$reads.per.sample <- sample_sums(pseq)
 pseq |> 
     microbiome::meta() |> 
     ggplot(aes_string(primary_var, "reads.per.sample")) +
-    geom_violin()+
+    geom_violin(aes_string(color=primary_var))+
     geom_boxplot(width=0.2) +
-    labs(x="", y="Reads/sample")
+    labs(x="", y="Reads/sample")+
+    theme_bw()
 ```
 
 
@@ -68,16 +69,20 @@ sample_data(pseq)$shannon <- microbiome::diversity(pseq, index="shannon")[,1]
 sample_data(pseq)$observed <- microbiome::richness(pseq, index="observed")[,1]
 p.shannon <- meta(pseq) |> 
     ggplot(aes_string(primary_var, "shannon")) +
-    geom_violin()+
-    geom_boxplot(width=0.2) +
-    labs(x="", y="Shannon Diversity")
+    geom_violin(aes_string(color=primary_var))+
+    geom_boxplot(aes_string(color=primary_var), width=0.2) +
+    labs(x="", y="Shannon Diversity")+
+    theme_bw()
 p.observed <- meta(pseq) |> 
     ggplot(aes_string(primary_var, "observed")) +
-    geom_violin()+
-    geom_boxplot(width=0.2) +
-    labs(x="", y="Observed ASVs")
+    geom_violin(aes_string(color=primary_var))+
+    geom_boxplot(aes_string(color=primary_var), width=0.2) +
+    labs(x="", y="Observed ASVs")+
+    theme_bw()
 
-p.shannon | p.observed
+(p.shannon | p.observed ) + 
+    plot_layout(guides = "collect") +
+    plot_annotation(tag_levels = "a")
 ```
 
 ## Correlation
@@ -85,19 +90,27 @@ Check if reads per sample is correlated to Shannon diversity
 ```{{r}}
 
 p.shanon.cor <- meta(pseq) |> 
-    ggplot(aes_string("reads.per.sample", "shannon")) +
-    geom_point() +
-    geom_smooth(method = "lm") +
-    ggpubr::stat_cor(method = "spearman", label.y = 2)+
-    labs(x="Reads/sample", y="Shannon Diversity")
-p.observed.cor <- meta(pseq) |> 
-    ggplot(aes_string("reads.per.sample", "observed")) +
-    geom_point() +
-    geom_smooth(method = "lm") +
-    ggpubr::stat_cor(method = "spearman", label.y = 2) +
-    labs(x="Reads/sample", y="Observed ASVs")
+    ggplot(aes_string("reads.per.sample", "shannon", group=primary_var)) +
+    geom_point(aes_string(color=primary_var), alpha=0.5) +
+    geom_smooth(method = "lm", aes_string(color=primary_var), show.legend = FALSE) +
+    ggpubr::stat_cor(method = "spearman", aes_string(color=primary_var), show.legend = FALSE,
+                     label.x.npc = 0.5, label.y.npc = 0.3, hjust = 0)+
+    labs(x="Reads/sample", y="Shannon Diversity") +
+    theme_bw() 
 
-p.shanon.cor | p.observed.cor
+p.observed.cor <- meta(pseq) |> 
+    ggplot(aes_string("reads.per.sample", "observed", group=primary_var)) +
+    geom_point(aes_string(color=primary_var), alpha=0.5) +
+    geom_smooth(method = "lm", aes_string(color=primary_var), show.legend = FALSE) +
+    ggpubr::stat_cor(method = "spearman", aes_string(color=primary_var), show.legend = FALSE,
+                     label.x.npc = 0.5, label.y.npc = 0.3, hjust = 0) +
+    labs(x="Reads/sample", y="Observed ASVs") +
+    theme_bw() 
+
+
+(p.shanon.cor | p.observed.cor) + 
+    plot_layout(guides = "collect") +
+    plot_annotation(tag_levels = "a")
 ```
 
 ```{{r}}
